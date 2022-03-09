@@ -12,7 +12,7 @@ public:
         regizor = new char[51];
     }
 
-    ///DESTRUCTOR?????????????
+    ///DESTRUCTOR
     ~film() {
         delete[] den_film;
         delete[] gen;
