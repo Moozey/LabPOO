@@ -20,33 +20,60 @@ public:
     }
 
     ///constructor de copiere
+    char *getDenFilm() const;
 
-    film(film &alt_film) {
+    char *getGen() const;
 
-        strcpy(alt_film.den_film, den_film);
-        strcpy(alt_film.gen, gen);
-        strcpy(alt_film.regizor, regizor);
-        alt_film.rating = rating;
+    char *getRegizor() const;
+
+    double getRating() const;
+
+    film(const film &alt_film) {
+        den_film = new char[31];
+        gen = new char[20];
+        regizor = new char[51];
+
+
+        strcpy(den_film, alt_film.den_film );
+        strcpy(gen, alt_film.gen );
+        strcpy(regizor, alt_film.regizor );
+
+
+        rating=alt_film.rating ;
+    }
+    ///constructor parametrizat
+    film(const char filmulet[], const char genu[], const char om[], const double rating1) {
+        gen = new char[20];
+        strcpy(gen, genu);
+
+        den_film = new char[31];
+        strcpy(den_film, filmulet);
+
+        regizor = new char[51];
+        strcpy(regizor, om);
+
+        rating = rating1;
     }
 
     ///supraincarcare pe =
-    void operator=( film &alt_film) {
-        delete alt_film.den_film;
-        int lung = strlen(den_film);
-        alt_film.den_film = new char[lung];
-        strcpy(alt_film.den_film, den_film);
+    film& operator=( const film &alt_film) {
+        delete den_film;
+        int lung = strlen(alt_film.den_film);
+        den_film = new char[lung];
+        strcpy(den_film, alt_film.den_film );
 
-        delete alt_film.gen;
-        lung = strlen(gen);
-        alt_film.gen = new char[lung];
-        strcpy(alt_film.gen, gen);
+        delete gen;
+        lung = strlen(alt_film.gen);
+        gen = new char[lung];
+        strcpy(gen,alt_film.gen );
 
-        delete alt_film.regizor;
-        lung = strlen(regizor);
-        alt_film.regizor = new char[lung];
-        strcpy(alt_film.regizor, regizor);
+        delete regizor;
+        lung = strlen(alt_film.regizor);
+        regizor = new char[lung];
+        strcpy(regizor,alt_film.regizor );
 
-        alt_film.rating = rating;
+        rating=alt_film.rating;
+        return *this;
     }
 
     ///supraincarcare pe >> si <<
@@ -55,23 +82,23 @@ public:
     friend ostream &operator<<(ostream &siaut, film &movie);
 
     ///supraincarcare pe operatorii specifici de comparare
-    bool operator == (film &alt_movie){
+    bool operator == (const film &alt_movie) const{
         if (rating == alt_movie.rating) return true;
         else return false;
     }
-    bool operator >= (film &alt_movie){
+    bool operator >= (const film &alt_movie) const{
         if (rating >= alt_movie.rating) return true;
         else return false;
     }
-    bool operator <= (film &alt_movie){
+    bool operator <= (const film &alt_movie)const {
         if (rating <= alt_movie.rating) return true;
         else return false;
     }
-    bool operator < (film &alt_movie){
+    bool operator < (const film &alt_movie)const{
         if (rating < alt_movie.rating) return true;
         else return false;
     }
-    bool operator > (film &alt_movie){
+    bool operator > (const  film &alt_movie)const{
         if (rating > alt_movie.rating) return true;
         else return false;
     }
@@ -117,6 +144,22 @@ ostream &operator<<(ostream &siaut, film &movie){
     siaut<<movie.regizor; siaut<<endl;
     siaut<<movie.rating;
     return siaut;
+}
+
+char *film::getDenFilm() const {
+    return den_film;
+}
+
+char *film::getGen() const {
+    return gen;
+}
+
+char *film::getRegizor() const {
+    return regizor;
+}
+
+double film::getRating() const {
+    return rating;
 }
 
 film *mov[100];
@@ -213,6 +256,10 @@ int main() {
             for (int i = 1; i <= n; i++) cout<<*mov[i]<<endl;
 
     }
+     const film test("numelee", "genull", "omul", 6.5);
+     const film f2 = test;
+
+
     return 0;
 }
 
